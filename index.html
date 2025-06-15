@@ -1,9 +1,29 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <script type="module" src="common.mjs"></script>
-        <script type="module" src="web.mjs"></script>
-    </head>
-    <body>
-    </body>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Piscine Calendar </title>
+   </head>
+   <body>
+      <h1>CYF Calendar</h1>
+
+      <div class="calendar-controls">
+
+         <button id="prev-month-btn">← Previous Month</button>
+
+         <label for="month-select">Month:</label>
+         <select id="month-select"></select>
+
+         <label for="year-select">Year:</label>
+         <select id="year-select"></select>
+
+         <button id="next-month-btn">Next Month →</button>
+      </div>
+
+      <!-- container table calendar -->
+      <div id="calendar-container"></div>
+
+      <script src="main.js" defer></script>
+   </body>
 </html>

@@ -3,14 +3,9 @@
 //the single most important function in the project= 
 // will be responsible for drawing and re-drawing the entire calendar every time the month changes.
 
-// modules/calendarView.mjs
+export function renderCalendar(currentDate, calendarContainer) {
 
-// By adding "export default", we make this function available to be imported by other files.
-// It accepts the date and the container as parameters, making it a self-contained specialist.
-export default function renderCalendar(currentDate, calendarContainer) {
 
-    //the single most important function in your project= 
-    // will be responsible for drawing and re-drawing the entire calendar every time the month changes.
     console.log("Rendering calendar...");
 
     calendarContainer.innerHTML = '';
@@ -84,4 +79,4 @@ export default function renderCalendar(currentDate, calendarContainer) {
     
     // Finally, add the fully constructed table to the page
     calendarContainer.appendChild(table);
-}
+};

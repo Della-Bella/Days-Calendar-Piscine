@@ -1,4 +1,4 @@
-import { renderCalendar } from "./modules/calendarView.mjs";
+import { renderCalendar } from "./modules/calendarViewNew.mjs";
 
 //Controls Elements
 

@@ -4,7 +4,7 @@
 // will be responsible for drawing and re-drawing the entire calendar every time the month changes.
 
 export function renderCalendar(currentDate, calendarContainer) {
-   console.log("Rendering calendar...");
+   console.log("Rendering calendar...table");
 
    calendarContainer.innerHTML = "";
    // Create Table Calendar elements : <table>, <thead>, <tbody>, <tr>, <th>, and <td> elements

@@ -1,48 +1,48 @@
 import { renderCalendar } from "./modules/calendarViewNew.mjs";
-import { populateDropdowns } from "./modules/dropdowns.mjs";
+import { setupDropdowns } from "./modules/dropdowns.mjs";
 import { setupNavigation } from "./modules/navigationButton.mjs";
+import { loadSpecialDays } from "./modules/loadSpecialDays.mjs";
+import { getCommemorativeDates } from "./modules/getCommemorativeDates.mjs";
 
-//Controls Elements
-
-const calendarControls = document.querySelector("calendar-controls");
+// --- DOM Elements ---
 const monthSelect = document.getElementById("month-select");
 const yearSelect = document.getElementById("year-select");
-
-//Calendar
 const calendarContainer = document.getElementById("calendar-container");
 
-// monst important variable= will track month and year displaying in the Calendar
+// --- Main State Variable ---
 let currentDate = new Date();
 
-console.log("calendar const general");
-
-//the single most important function in your project=
-// will be responsible for drawing and re-drawing the entire calendar every time the month changes.
-
-function syncDropdownsToDate() {
-  monthSelect.value = currentDate.getMonth();
-  yearSelect.value = currentDate.getFullYear();
+// --- Main Rendering Function ---
+// This function combines fetching data with rendering the calendar.
+// This is the new logic from the 'main' branch.
+async function renderApp() {
+  const allDays = await loadSpecialDays();
+  const specialDates = getCommemorativeDates(
+    allDays,
+    currentDate.getFullYear(),
+    currentDate.getMonth()
+  );
+  // We pass the special dates to the renderCalendar function
+  renderCalendar(currentDate, calendarContainer, specialDates);
 }
 
-populateDropdowns(monthSelect, yearSelect, currentDate);
-syncDropdownsToDate();
+// --- Setup Modules ---
+// Here we use your clean, refactored structure.
 
-setupNavigation(
-  currentDate,
-  renderCalendar,
-  syncDropdownsToDate,
-  calendarContainer
+const syncDropdowns = setupDropdowns(
+   currentDate,
+   monthSelect,
+   yearSelect,
+   renderApp, // Pass the new main rendering function
+   calendarContainer
 );
 
-// Setup dropdown event listeners
-monthSelect.addEventListener("change", () => {
-  currentDate.setMonth(parseInt(monthSelect.value));
-  renderCalendar(currentDate, calendarContainer);
-});
+setupNavigation(
+   currentDate,
+   renderApp, // Pass the new main rendering function
+   syncDropdowns,
+   calendarContainer
+);
 
-yearSelect.addEventListener("change", () => {
-  currentDate.setFullYear(parseInt(yearSelect.value));
-  renderCalendar(currentDate, calendarContainer);
-});
-
-renderCalendar(currentDate, calendarContainer);
+// --- Initial Render ---
+renderApp();

@@ -1,27 +1,33 @@
 import { renderCalendar } from "./modules/calendarViewNew.mjs";
 import { populateDropdowns } from "./modules/dropdowns.mjs";
 import { setupNavigation } from "./modules/navigationButton.mjs";
+import { loadSpecialDays } from "./modules/loadSpecialDays.mjs";
+import { getCommemorativeDates } from "./modules/getCommemorativeDates.mjs";
 
-//Controls Elements
-
-const calendarControls = document.querySelector("calendar-controls");
+// Controls Elements
 const monthSelect = document.getElementById("month-select");
 const yearSelect = document.getElementById("year-select");
 
-//Calendar
+// Calendar container
 const calendarContainer = document.getElementById("calendar-container");
 
-// monst important variable= will track month and year displaying in the Calendar
+// Track the currently displayed date
 let currentDate = new Date();
-
-console.log("calendar const general");
-
-//the single most important function in your project=
-// will be responsible for drawing and re-drawing the entire calendar every time the month changes.
 
 function syncDropdownsToDate() {
   monthSelect.value = currentDate.getMonth();
   yearSelect.value = currentDate.getFullYear();
+}
+
+// Load and render calendar with commemorative dates
+async function renderWithSpecialDays() {
+  const allDays = await loadSpecialDays();
+  const specialDates = getCommemorativeDates(
+    allDays,
+    currentDate.getFullYear(),
+    currentDate.getMonth()
+  );
+  renderCalendar(currentDate, calendarContainer, specialDates);
 }
 
 populateDropdowns(monthSelect, yearSelect, currentDate);
@@ -29,20 +35,21 @@ syncDropdownsToDate();
 
 setupNavigation(
   currentDate,
-  renderCalendar,
+  renderWithSpecialDays,
   syncDropdownsToDate,
   calendarContainer
 );
 
-// Setup dropdown event listeners
+// Dropdown listeners
 monthSelect.addEventListener("change", () => {
   currentDate.setMonth(parseInt(monthSelect.value));
-  renderCalendar(currentDate, calendarContainer);
+  renderWithSpecialDays();
 });
 
 yearSelect.addEventListener("change", () => {
   currentDate.setFullYear(parseInt(yearSelect.value));
-  renderCalendar(currentDate, calendarContainer);
+  renderWithSpecialDays();
 });
 
-renderCalendar(currentDate, calendarContainer);
+// Initial render
+renderWithSpecialDays();

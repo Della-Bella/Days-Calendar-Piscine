@@ -1,6 +1,6 @@
 
 
-// It doesn't need to be exported= help function
+
 function populateDropdowns(monthSelect, yearSelect, currentDate) {
    const monthNames = [
       "January",
@@ -65,6 +65,6 @@ export function setupDropdowns(
       renderCalendar(currentDate, calendarContainer);
    });
 
-   // Step 4: IMPORTANT - Return the sync function so the navigation buttons can use it!
+   // Step 4:Return the sync function so the navigation buttons can use it!
    return syncDropdownsToDate;
 }

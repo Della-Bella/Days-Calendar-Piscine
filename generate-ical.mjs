@@ -1,35 +1,35 @@
 // This is a placeholder file which shows how you can access functions and data defined in other files. You can delete the contents of the file once you have understood how it works.
 // It can be run with `node`.
 
-// Import the functions and data we need
+// Import the functions 
 import { getCommemorativeDates } from './modules/getCommemorativeDates.mjs';
 import { promises as fs } from 'fs';
 import { createRequire } from 'module';
 
-// A helper to load the JSON file correctly in an ES Module
+//  load the JSON in an ES Module
 const require = createRequire(import.meta.url);
 const allRules = require('./days.json');
 
 console.log('Starting to generate iCal file...');
 
-// This is the header for the .ics file. It must be at the top.
+//  header for the .ics file. 
 let icalString = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//YourProjectName//Piscine Calendar//EN
 `;
 
-// Loop through each year from 2020 to 2030, as required
+// Loop through each year from 2020 to 2030
 for (let year = 2020; year <= 2030; year++) {
   // Loop through each month of the year (0 for Jan, 11 for Dec)
   for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
     
-    // --- THIS IS THE MOST IMPORTANT PART ---
-    // We are calling your shared function to do the hard work!
+    
+    // call  function 
     const foundDays = getCommemorativeDates(allRules, year, monthIndex);
 
-    // Now, we check if the function found any special days for this month
+    //  check if the function found any special days for this month
     if (foundDays.length > 0) {
-      // If it did, we loop through each day it found
+      // If it did, loop through each day it found
       for (const day of foundDays) {
         // Prepare the date in the required YYYYMMDD format
         const month = String(monthIndex + 1).padStart(2, '0');

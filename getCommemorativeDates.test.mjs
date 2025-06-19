@@ -46,7 +46,7 @@ describe("getCommemorativeDates", () => {
       // We manually calculate the correct answer to test against.
       // In Oct 2024, Mondays are the 7th, 14th, 21st, 28th. The second is the 14th.
       const expectedResult = [
-         { day: 14, name: "Columbus Day", url: "columbus-url" },
+        { day: 14, month: 9, name: "Columbus Day", url: "columbus-url" },
       ];
 
       const actualResult = getCommemorativeDates(mockAllDays, year, monthIndex);
@@ -62,7 +62,7 @@ describe("getCommemorativeDates", () => {
 
       // In May 2025, Mondays are the 5th, 12th, 19th, 26th. The last is the 26th.
       const expectedResult = [
-         { day: 26, name: "Memorial Day", url: "memorial-url" },
+        { day: 26, month: 4, name: "Memorial Day", url: "memorial-url" },
       ];
 
       const actualResult = getCommemorativeDates(mockAllDays, year, monthIndex);

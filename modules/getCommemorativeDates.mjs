@@ -1,17 +1,3 @@
-const dayIndexMap = {
-  Monday: 0,
-  Tuesday: 1,
-  Wednesday: 2,
-  Thursday: 3,
-  Friday: 4,
-  Saturday: 5,
-  Sunday: 6,
-};
-
-function toMondayBasedIndex(jsDayIndex) {
-  return (jsDayIndex + 6) % 7;
-}
-
 export function getCommemorativeDates(allDays, year, monthIndex) {
   const specialDates = [];
 
@@ -19,13 +5,23 @@ export function getCommemorativeDates(allDays, year, monthIndex) {
     const targetMonth = new Date(`${day.monthName} 1, ${year}`).getMonth();
     if (targetMonth !== monthIndex) continue;
 
-    const targetDayIndex = dayIndexMap[day.dayName];
-    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+    // Convert day.dayName (e.g., "Monday") to a number using built-in JS
+    const targetDayIndex = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ].indexOf(day.dayName);
 
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
     const matchingDates = [];
+
     for (let d = 1; d <= daysInMonth; d++) {
       const date = new Date(year, monthIndex, d);
-      if (toMondayBasedIndex(date.getDay()) === targetDayIndex) {
+      if (date.getDay() === targetDayIndex) {
         matchingDates.push(d);
       }
     }
@@ -49,3 +45,4 @@ export function getCommemorativeDates(allDays, year, monthIndex) {
 
   return specialDates;
 }
+

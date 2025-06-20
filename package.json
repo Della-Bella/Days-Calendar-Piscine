@@ -1,0 +1,15 @@
+{
+   "name": "days-calendar-piscine",
+   "version": "1.0.0",
+   "description": "A calendar project with commemorative dates",
+   "type": "module",
+   "scripts": {
+      "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+   },
+   "devDependencies": {
+      "jest": "^29.7.0"
+   },
+   "dependencies": {
+      "ical-generator": "^7.1.0"
+   }
+}

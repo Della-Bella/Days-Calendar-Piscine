@@ -1,29 +1,48 @@
 import { renderCalendar } from "./modules/calendarViewNew.mjs";
+import { setupDropdowns } from "./modules/dropdowns.mjs";
+import { setupNavigation } from "./modules/navigationButton.mjs";
+import { loadSpecialDays } from "./modules/loadSpecialDays.mjs";
+import { getCommemorativeDates } from "./modules/getCommemorativeDates.mjs";
 
-//Controls Elements
-
-const calendarControls = document.querySelector("calendar-controls");
-const prevMonthBtn = document.getElementById("prev-month-btn");
-const monthsSelect = document.getElementById("month-select");
+// DOM Elements
+const monthSelect = document.getElementById("month-select");
 const yearSelect = document.getElementById("year-select");
-const nextMonthBtn = document.getElementById("next-month-btn");
-
-
-//Calendar 
 const calendarContainer = document.getElementById("calendar-container");
 
-// monst important variable= will track month and year displaying in the Calendar
+// Get current month and year for the calendar.
 let currentDate = new Date();
 
-console.log("calendar const general");
+// Loads the special days and then renders the calendar with those dates.
+async function renderApp() {
+    try {
+      const allDays = await loadSpecialDays();
+      const specialDates = getCommemorativeDates(
+        allDays,
+        currentDate.getFullYear(),
+        currentDate.getMonth()
+      );
+      renderCalendar(currentDate, calendarContainer, specialDates);
+    } catch (error) {
+      console.error("Failed to load special days:", error);
+      calendarContainer.innerHTML =
+        "<p>Something went wrong loading commemorative days.</p>";
+    }
+}
+// Setup Dropdowns and Navigation
+const syncDropdowns = setupDropdowns(
+   currentDate,
+   monthSelect,
+   yearSelect,
+   renderApp, // Pass the new main rendering function
+   calendarContainer
+);
 
-//the single most important function in your project= 
-// will be responsible for drawing and re-drawing the entire calendar every time the month changes.
+setupNavigation(
+   currentDate,
+   renderApp, // Pass the new main rendering function
+   syncDropdowns,
+   calendarContainer
+);
 
-
-renderCalendar(currentDate, calendarContainer)
-
-
-
-
-
+// Initial render of the calendar
+renderApp();

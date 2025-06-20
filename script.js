@@ -4,31 +4,31 @@ import { setupNavigation } from "./modules/navigationButton.mjs";
 import { loadSpecialDays } from "./modules/loadSpecialDays.mjs";
 import { getCommemorativeDates } from "./modules/getCommemorativeDates.mjs";
 
-// --- DOM Elements ---
+// DOM Elements
 const monthSelect = document.getElementById("month-select");
 const yearSelect = document.getElementById("year-select");
 const calendarContainer = document.getElementById("calendar-container");
 
-// --- Main State Variable ---
+// Get current month and year for the calendar.
 let currentDate = new Date();
 
-// --- Main Rendering Function ---
-// This function combines fetching data with rendering the calendar.
-// This is the new logic from the 'main' branch.
+// Loads the special days and then renders the calendar with those dates.
 async function renderApp() {
-  const allDays = await loadSpecialDays();
-  const specialDates = getCommemorativeDates(
-    allDays,
-    currentDate.getFullYear(),
-    currentDate.getMonth()
-  );
-  // We pass the special dates to the renderCalendar function
-  renderCalendar(currentDate, calendarContainer, specialDates);
+    try {
+      const allDays = await loadSpecialDays();
+      const specialDates = getCommemorativeDates(
+        allDays,
+        currentDate.getFullYear(),
+        currentDate.getMonth()
+      );
+      renderCalendar(currentDate, calendarContainer, specialDates);
+    } catch (error) {
+      console.error("Failed to load special days:", error);
+      calendarContainer.innerHTML =
+        "<p>Something went wrong loading commemorative days.</p>";
+    }
 }
-
-// --- Setup Modules ---
-// Here we use your clean, refactored structure.
-
+// Setup Dropdowns and Navigation
 const syncDropdowns = setupDropdowns(
    currentDate,
    monthSelect,
@@ -44,5 +44,5 @@ setupNavigation(
    calendarContainer
 );
 
-// --- Initial Render ---
+// Initial render of the calendar
 renderApp();

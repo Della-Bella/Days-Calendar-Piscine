@@ -40,6 +40,7 @@ export function getCommemorativeDates(allDays, year, monthIndex) {
     if (finalDay) {
       specialDates.push({
         day: finalDay,
+        month: monthIndex,
         name: day.name,
         url: day.descriptionURL,
       });

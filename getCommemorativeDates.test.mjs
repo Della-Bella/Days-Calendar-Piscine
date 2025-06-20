@@ -2,10 +2,9 @@
 
 import { getCommemorativeDates } from "./modules/getCommemorativeDates.mjs";
 
-// describe() groups all the tests for one function together.
+// describe() groups all the tests for one function together
 describe("getCommemorativeDates", () => {
-   // First, we need to create some "mock" data.
-   // This simulates the data that would be loaded from your days.json file.
+   // mock of the data structure that getCommemorativeDates expects
    const mockAllDays = [
       {
          monthName: "October",
@@ -38,12 +37,11 @@ describe("getCommemorativeDates", () => {
       },
    ];
 
-   // Test Case 1: The "Happy Path" - a standard calculation.
+   
    test("should correctly find the second Monday of October 2024", () => {
       const year = 2024;
-      const monthIndex = 9; // October is month 9 (0-indexed).
+      const monthIndex = 9; // October is month 9 
 
-      // We manually calculate the correct answer to test against.
       // In Oct 2024, Mondays are the 7th, 14th, 21st, 28th. The second is the 14th.
       const expectedResult = [
          { day: 14, name: "Columbus Day", url: "columbus-url" },
@@ -55,7 +53,8 @@ describe("getCommemorativeDates", () => {
       expect(actualResult).toEqual(expectedResult);
    });
 
-   // Test Case 2: Testing the "last" occurrence logic.
+   
+// Testing last occurrence rule
    test("should correctly find the last Monday of May 2025", () => {
       const year = 2025;
       const monthIndex = 4; // May is month 4.
@@ -70,7 +69,8 @@ describe("getCommemorativeDates", () => {
       expect(actualResult).toEqual(expectedResult);
    });
 
-   // Test Case 3: Testing an edge case - a month with no matching rules.
+
+   // Testing an edge case, a month with no matching rules.
    test("should return an empty array for a month with no applicable holidays", () => {
       const year = 2024;
       const monthIndex = 7; // August is month 7.
@@ -78,7 +78,7 @@ describe("getCommemorativeDates", () => {
       // There are no rules for August in our mock data.
       const actualResult = getCommemorativeDates(mockAllDays, year, monthIndex);
 
-      // The function should gracefully return an empty array.
+      // The function should return an empty array.
       expect(actualResult).toEqual([]);
    });
 });
